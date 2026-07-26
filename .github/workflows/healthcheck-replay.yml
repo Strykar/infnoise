@@ -1,0 +1,20 @@
+name: Health Check Replay
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential libftdi1-dev
+
+      - name: Replay captures through the health check
+        working-directory: tests/emul
+        run: make check
